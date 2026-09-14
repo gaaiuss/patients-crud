@@ -1,13 +1,122 @@
-import os
-
-from dotenv import load_dotenv
 from rich import print
 from rich.markdown import Markdown
 
-load_dotenv()
+type Patient = dict[str, int | str]
 
-greetings = os.getenv("GREETINGS", "`.env` file not found, check `.env-example`")
 
-print(Markdown("---"))
-print(greetings)
-print(Markdown("---"))
+def register_patient(patient_list: list[Patient]) -> None:
+    name = input("Nome do paciente: ")
+    age = int(input("Idade: "))
+    phone = input("Telefone: ")
+
+    patient_list.append(
+        {
+            "nome": name,
+            "idade": age,
+            "telefone": phone,
+        },
+    )
+
+    print("\nPaciente cadastrado com sucesso!")
+
+
+def average_patient_age(patient_list: list[Patient]) -> int:
+    age_sum = 0
+
+    if len(patient_list) <= 1:
+        return int(patient_list[0]["idade"])
+
+    for patient in patient_list:
+        age_sum += int(patient["idade"])
+
+    return round(age_sum / 2)
+
+
+def get_younger_patient(patient_list: list[Patient]) -> None:
+    younger = patient_list[0]
+
+    for patient in patient_list:
+        if int(patient["idade"]) < int(younger["idade"]):
+            younger = patient
+
+    print("Nome do paciente: ", younger["nome"])
+    print("Idade: ", younger["idade"])
+    print("Telefone: ", younger["telefone"])
+
+
+def get_older_patient(patient_list: list[Patient]) -> None:
+    older = patient_list[0]
+
+    for patient in patient_list:
+        if int(patient["idade"]) > int(older["idade"]):
+            older = patient
+
+    print("Nome do paciente: ", older["nome"])
+    print("Idade: ", older["idade"])
+    print("Telefone: ", older["telefone"])
+
+
+def show_statistics(patient_list: list[Patient]) -> None:
+    print("Número de pacientes cadastrados: ", len(patient_list))
+    print("Idade média dos pacientes: ", average_patient_age(patient_list))
+    print("\nPaciente mais novo:\n")
+    get_younger_patient(patient_list)
+    print("\nPaciente mais velho:\n")
+    get_older_patient(patient_list)
+
+
+def search_patient_by_name(patient_list: list[Patient]) -> None:
+    patient_name = input("Digite o nome do paciente: ")
+    for patient in patient_list:
+        if patient_name == patient["nome"]:
+            print("\nPaciente encontrado!\n")
+            print("Nome do paciente: ", patient["nome"])
+            print("Idade: ", patient["idade"])
+            print("Telefone: ", patient["telefone"])
+            return
+
+    print("Paciente não encontrado!")
+
+
+def main() -> None:
+    patient_list: list[Patient] = []
+
+    while True:
+        print(Markdown("---"))
+        print("=== SISTEMA CLÍNICA VIDA+ ===")
+        print("1. Cadastrar paciente")
+        print("2. Ver estatísticas")
+        print("3. Buscar paciente")
+        print("4. Listar todos os pacientes")
+        print("5. Sair")
+        print(Markdown("---"))
+
+        option = int(input("Escolha uma opção: "))
+
+        match option:
+            case 1:
+                print(Markdown("---"))
+                register_patient(patient_list)
+            case 2:
+                print(Markdown("---"))
+                show_statistics(patient_list)
+            case 3:
+                print(Markdown("---"))
+                search_patient_by_name(patient_list)
+            case 4:
+                print(Markdown("---"))
+                print("Pacientes\n")
+                for patient in patient_list:
+                    print("Nome do paciente: ", patient["nome"])
+                    print("Idade: ", patient["idade"])
+                    print("Telefone: ", patient["telefone"])
+                    print()
+            case 5:
+                print("Saindo...")
+                break
+            case _:
+                print("Opção inválida!")
+
+
+if __name__ == "__main__":
+    main()
