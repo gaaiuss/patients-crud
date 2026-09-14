@@ -66,6 +66,8 @@ def show_statistics(patient_list: list[Patient]) -> None:
 
 
 def search_patient_by_name(patient_list: list[Patient]) -> None:
+    print("Busca de paciente")
+    print()
     patient_name = input("Digite o nome do paciente: ")
     for patient in patient_list:
         if patient_name == patient["nome"]:
@@ -89,26 +91,23 @@ def main() -> None:
         print("3. Buscar paciente")
         print("4. Listar todos os pacientes")
         print("5. Sair")
-        print(Markdown("---"))
+        print()
 
         try:
             option = int(input("Escolha uma opção: "))
+            print(Markdown("---"))
         except ValueError:
             print("\nEscolha apenas números!")
             continue
 
         match option:
             case 1:
-                print(Markdown("---"))
                 register_patient(patient_list)
             case 2:
-                print(Markdown("---"))
                 show_statistics(patient_list)
             case 3:
-                print(Markdown("---"))
                 search_patient_by_name(patient_list)
             case 4:
-                print(Markdown("---"))
                 print("Pacientes\n")
 
                 for patient in patient_list:
