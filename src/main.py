@@ -6,7 +6,13 @@ type Patient = dict[str, int | str]
 
 def register_patient(patient_list: list[Patient]) -> None:
     name = input("Nome do paciente: ")
-    age = int(input("Idade: "))
+
+    try:
+        age = int(input("Idade: "))
+    except ValueError:
+        print("\nPor favor digite uma idade válida!")
+        return
+
     phone = input("Telefone: ")
 
     patient_list.append(
@@ -39,9 +45,7 @@ def get_younger_patient(patient_list: list[Patient]) -> None:
         if int(patient["idade"]) < int(younger["idade"]):
             younger = patient
 
-    print("Nome do paciente: ", younger["nome"])
-    print("Idade: ", younger["idade"])
-    print("Telefone: ", younger["telefone"])
+    print("Nome do paciente mais novo:", younger["nome"], "- Idade:", younger["idade"])
 
 
 def get_older_patient(patient_list: list[Patient]) -> None:
@@ -51,17 +55,13 @@ def get_older_patient(patient_list: list[Patient]) -> None:
         if int(patient["idade"]) > int(older["idade"]):
             older = patient
 
-    print("Nome do paciente: ", older["nome"])
-    print("Idade: ", older["idade"])
-    print("Telefone: ", older["telefone"])
+    print("Nome do paciente mais velho:", older["nome"], "- Idade:", older["idade"])
 
 
 def show_statistics(patient_list: list[Patient]) -> None:
-    print("Número de pacientes cadastrados: ", len(patient_list))
-    print("Idade média dos pacientes: ", average_patient_age(patient_list))
-    print("\nPaciente mais novo:\n")
+    print("Número de pacientes cadastrados:", len(patient_list))
+    print("Idade média dos pacientes:", average_patient_age(patient_list))
     get_younger_patient(patient_list)
-    print("\nPaciente mais velho:\n")
     get_older_patient(patient_list)
 
 
@@ -69,10 +69,10 @@ def search_patient_by_name(patient_list: list[Patient]) -> None:
     patient_name = input("Digite o nome do paciente: ")
     for patient in patient_list:
         if patient_name == patient["nome"]:
-            print("\nPaciente encontrado!\n")
-            print("Nome do paciente: ", patient["nome"])
-            print("Idade: ", patient["idade"])
-            print("Telefone: ", patient["telefone"])
+            print("\nDados do paciente:\n")
+            print("Nome:", patient["nome"])
+            print("Idade:", patient["idade"])
+            print("Telefone:", patient["telefone"])
             return
 
     print("Paciente não encontrado!")
@@ -91,7 +91,11 @@ def main() -> None:
         print("5. Sair")
         print(Markdown("---"))
 
-        option = int(input("Escolha uma opção: "))
+        try:
+            option = int(input("Escolha uma opção: "))
+        except ValueError:
+            print("\nEscolha apenas números!")
+            continue
 
         match option:
             case 1:
@@ -106,16 +110,17 @@ def main() -> None:
             case 4:
                 print(Markdown("---"))
                 print("Pacientes\n")
+
                 for patient in patient_list:
                     print("Nome do paciente: ", patient["nome"])
                     print("Idade: ", patient["idade"])
                     print("Telefone: ", patient["telefone"])
                     print()
             case 5:
-                print("Saindo...")
+                print("\nSaindo...")
                 break
             case _:
-                print("Opção inválida!")
+                print("\nOpção inválida!")
 
 
 if __name__ == "__main__":
