@@ -10,9 +10,9 @@
 #   - The folder inside 'src/'
 # ============================
 [project]
-name = "project1"
+name = "patients-crud"
 version = "0.0.1"
-description = "project1"
+description = "patients-crud"
 readme = "README.md"
 license = "MIT"
 authors = [{ name = "gaaiuss", email = "caio.gui.castro@gmail.com" }]
