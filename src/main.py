@@ -35,7 +35,7 @@ def average_patient_age(patient_list: list[Patient]) -> int:
     for patient in patient_list:
         age_sum += int(patient["idade"])
 
-    return round(age_sum / 2)
+    return round(age_sum / len(patient_list))
 
 
 def get_younger_patient(patient_list: list[Patient]) -> None:
